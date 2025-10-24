@@ -1,47 +1,12 @@
 "use client";
 
-import { useMemo } from "react";
+import FeaturedJobs from "@/components/FeaturedJobs";
 import { motion, useReducedMotion } from "framer-motion";
-import Link from "next/link";
-import JobCard from "@/components/JobCard";
-import { Switch } from "@headlessui/react";
 import { useTheme } from "next-themes";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Link from "next/link";
+import { useMemo } from "react";
 
 // Sample featured jobs (replace with DB data later)
-const featuredJobs = [
-  {
-    id: "1",
-    title: "Frontend Developer",
-    company: "Acme Corp",
-    location: "Remote",
-  },
-  {
-    id: "2",
-    title: "Backend Engineer",
-    company: "TechSoft",
-    location: "New York, USA",
-  },
-  {
-    id: "3",
-    title: "Fullstack Developer",
-    company: "StartupX",
-    location: "London, UK",
-  },
-  {
-    id: "4",
-    title: "React Developer",
-    company: "CodeLabs",
-    location: "Berlin, Germany",
-  },
-  {
-    id: "5",
-    title: "Node.js Engineer",
-    company: "WebWorks",
-    location: "Remote",
-  },
-];
 
 export default function HomePage() {
   const { resolvedTheme, setTheme } = useTheme();
@@ -125,11 +90,7 @@ export default function HomePage() {
           <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">
             Featured Jobs
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-            {featuredJobs.map((job) => (
-              <JobCard key={job.id} job={job} />
-            ))}
-          </div>
+          <FeaturedJobs />
         </motion.section>
 
         {/* Highlights / Stats */}
