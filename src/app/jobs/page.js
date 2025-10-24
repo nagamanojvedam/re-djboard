@@ -5,17 +5,8 @@ import useSWR from "swr";
 import JobCard from "@/components/JobCard";
 import SearchBar from "@/components/SearchBar";
 
-const fetcher = (url) =>
-  fetch(url).then((r) => {
-    if (!r.ok) throw new Error("Failed to load");
-    return r.json();
-  });
-
 export default function JobsPage() {
-  const { data, error, isLoading } = useSWR("/api/jobs", fetcher, {
-    revalidateOnFocus: true,
-    revalidateOnReconnect: true,
-  }); // caching + revalidation [web:85][web:102]
+  const { data, error, isLoading } = useSWR("/api/jobs");
 
   // Local search state
   const [query, setQuery] = useState("");

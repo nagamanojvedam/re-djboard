@@ -6,30 +6,74 @@ import Link from "next/link";
 export default function JobCard({ job }) {
   const prefersReducedMotion = useReducedMotion();
 
+  // format date
+  const postedDate = new Date(job.createdAt).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
   return (
     <motion.article
       whileHover={
         prefersReducedMotion
           ? undefined
-          : { scale: 1.02, rotateX: 1.5, rotateY: 1.5 }
+          : { scale: 1.02, y: -3, rotateX: 1, rotateY: 1 }
       }
       transition={
         prefersReducedMotion
           ? { duration: 0 }
-          : { type: "spring", stiffness: 300, damping: 22, mass: 0.8 }
+          : { type: "spring", stiffness: 250, damping: 18, mass: 0.8 }
       }
-      className="group bg-white dark:bg-gray-800/60 rounded-lg shadow-sm hover:shadow-md border border-transparent hover:border-cyan-400/60 transition-colors transform-gpu p-5 md:p-6 h-full"
+      className="group bg-white dark:bg-gray-800/60 rounded-xl shadow-sm hover:shadow-lg border border-gray-100 dark:border-gray-700 transition-all duration-200 overflow-hidden flex flex-col justify-between p-6"
     >
-      <header className="mb-3">
-        <h3 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-gray-50 line-clamp-2">
+      <div>
+        {/* Company Logo or Placeholder */}
+        <div className="flex items-center gap-3 mb-4">
+          <div className="h-10 w-10 rounded-md bg-gradient-to-tr from-cyan-500 to-blue-500 flex items-center justify-center text-white font-semibold shadow-sm">
+            {job.company?.[0]?.toUpperCase() || "?"}
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-50">
+              {job.company}
+            </h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              {postedDate}
+            </p>
+          </div>
+        </div>
+
+        {/* Job Title */}
+        <h2 className="text-xl font-bold text-gray-900 dark:text-gray-50 mb-2 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
           {job.title}
-        </h3>
-        <p className="text-gray-600 dark:text-gray-300 mt-1">{job.company}</p>
-      </header>
+        </h2>
 
-      <p className="text-sm text-gray-500 dark:text-gray-400">{job.location}</p>
+        {/* Job Description Preview */}
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+          {job.description.length > 110
+            ? job.description.slice(0, 110) + "..."
+            : job.description}
+        </p>
 
-      <div className="mt-4">
+        {/* Location */}
+        <p className="text-sm font-medium text-gray-700 dark:text-gray-400 flex items-center gap-1">
+          <svg
+            className="w-4 h-4 text-cyan-500"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.05 2.05a7 7 0 019.9 9.9l-4.243 4.243a1 1 0 01-1.414 0L5.05 11.95a7 7 0 010-9.9zm4.95 3.536a2.5 2.5 0 100 5 2.5 2.5 0 000-5z"
+              clipRule="evenodd"
+            />
+          </svg>
+          {job.location}
+        </p>
+      </div>
+
+      {/* CTA */}
+      <div className="mt-6">
         <Link
           href={`/jobs/${job._id}`}
           className="inline-flex items-center gap-2 text-cyan-700 dark:text-cyan-400 font-semibold hover:text-cyan-600 dark:hover:text-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 rounded px-1"
